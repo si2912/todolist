@@ -64,7 +64,7 @@
 <script>
 import draggable from 'vuedraggable';
 
-import { ADD_NEW_TODO, UPDATE_TODO } from '../store';
+import { ADD_NEW_TODO, CHANGE_TODO_ORDER, UPDATE_TODO } from '../store';
 
 export default {
   components: {
@@ -81,7 +81,7 @@ export default {
         return this.$store.getters.todos;
       },
       set(todos) {
-        this.$store.dispatch(UPDATE_TODO, todos);
+        this.$store.dispatch(CHANGE_TODO_ORDER, todos);
       }
     }
   },
