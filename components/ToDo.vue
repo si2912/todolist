@@ -1,12 +1,13 @@
 <template>
   <div class="todo">
     <div class="todo__input">
-      <input placeholder="Add a To Do" @keyup.enter="add" v-model="newTodo"/>
+      <input placeholder="Add a To Do" @keyup.enter="addNewToDo" v-model="newTodo"/>
     </div>
     <draggable :list="todos" @start="dragging = true" @end="dragging = false" class="todo__items">
       <div class="todo__items__item" v-for="todo in todos" :key="todo.id">
         <div class="todo__items__item__checkbox">
-          <input type="checkbox">
+          <input type="checkbox" :checked="todo.isCompleted"
+                 @click="onClickCheckbox({...todo, isCompleted: !todo.isCompleted})">
         </div>
         <div class="todo__items__item__text">
           {{ todo.text }}
@@ -22,7 +23,7 @@
   min-height: 650px;
 
   &__input input {
-    @apply text-gray-200 bg-gray-200 w-full p-2 mb-2;
+    @apply text-gray-700 bg-gray-200 w-full p-2 mb-2;
     &:focus {
       @apply bg-white border-2;
     }
@@ -63,7 +64,7 @@
 <script>
 import draggable from 'vuedraggable';
 
-let id = 2;
+import { ADD_NEW_TODO, UPDATE_TODO } from '../store';
 
 export default {
   components: {
@@ -71,18 +72,23 @@ export default {
   },
   data() {
     return {
-      todos: [ { id: 1, text: 'Working' }, { id: 2, text: 'Exercise' } ],
       newTodo: ''
     };
   },
-  computed: {},
+  computed: {
+    todos() {
+      return this.$store.getters.todos;
+    }
+  },
   methods: {
-    add: function () {
-      console.log('here', this.newTodo);
+    addNewToDo: function () {
       if (this.newTodo) {
-        this.todos.push({ text: this.newTodo, id: ++id });
+        this.$store.dispatch(ADD_NEW_TODO, this.newTodo);
         this.newTodo = '';
       }
+    },
+    onClickCheckbox: function (todo) {
+      this.$store.dispatch(UPDATE_TODO, todo);
     }
   }
 };
