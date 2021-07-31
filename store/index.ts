@@ -1,43 +1,50 @@
+import { GetterTree, ActionTree, MutationTree } from 'vuex';
+
+import { Todo } from '~/interfaces/Todo';
+
 export const ADD_NEW_TODO = 'addNewTodo';
 export const UPDATE_TODO = 'updateTodo';
 export const CHANGE_TODO_ORDER = 'changeTodoOrder';
+export const DELETE_TODO = 'deleteTodo';
+
+export type RootState = ReturnType<typeof state>
 
 const state = () => ({
-  todos: [],
-  id: 0
+  todos: [] as Todo[],
+  id: 0 as number
 });
 
-const mutations = {
-  [`${ADD_NEW_TODO}`](state: any, text: any) {
+const mutations: MutationTree<RootState> = {
+  [`${ADD_NEW_TODO}`](state, text: string) {
     state.todos.push({
       id: ++state.id,
       text,
       isCompleted: false
     });
   },
-  [`${UPDATE_TODO}`](state: any, todo: any) {
-    let _todo = state.todos.find((x: any) => x.id === todo.id);
+  [`${UPDATE_TODO}`](state, todo: Todo) {
+    let _todo = state.todos.find((x: Todo) => x.id === todo.id);
     _todo = { ...todo };
   },
-  [`${CHANGE_TODO_ORDER}`](state: any, todos: any) {
+  [`${CHANGE_TODO_ORDER}`](state, todos: Todo[]) {
     state.todos = [ ...todos ];
   }
 };
 
-const actions = {
-  [`${ADD_NEW_TODO}`]({ commit }: any, payload: any) {
+const actions: ActionTree<RootState, RootState> = {
+  [`${ADD_NEW_TODO}`]({ commit }, payload) {
     commit(ADD_NEW_TODO, payload);
   },
-  [`${UPDATE_TODO}`]({ commit }: any, payload: any) {
+  [`${UPDATE_TODO}`]({ commit }, payload) {
     commit(UPDATE_TODO, payload);
   },
-  [`${CHANGE_TODO_ORDER}`]({ commit }: any, payload: any) {
+  [`${CHANGE_TODO_ORDER}`]({ commit }, payload) {
     commit(CHANGE_TODO_ORDER, payload);
   }
 };
 
-const getters = {
-  todos(state: any) {
+const getters: GetterTree<RootState, RootState> = {
+  todos(state) {
     return state.todos;
   }
 };
