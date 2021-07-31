@@ -12,8 +12,10 @@
         <div class="todo__items__item__text">
           {{ todo.text }}
         </div>
+        <button @click="deleteTodo(todo.id)">X</button>
       </div>
     </draggable>
+    <div>{{lastedId}}</div>
   </div>
 </template>
 
@@ -64,7 +66,7 @@
 <script>
 import draggable from 'vuedraggable';
 
-import { ADD_NEW_TODO, CHANGE_TODO_ORDER, UPDATE_TODO } from '../store';
+import { ADD_NEW_TODO, CHANGE_TODO_ORDER, DELETE_TODO, UPDATE_TODO } from '../store';
 
 export default {
   components: {
@@ -83,7 +85,10 @@ export default {
       set(todos) {
         this.$store.dispatch(CHANGE_TODO_ORDER, todos);
       }
-    }
+    },
+    lastedId: function(){
+      return this.$store.getters.id;
+    } 
   },
   methods: {
     addNewToDo: function () {
@@ -94,6 +99,9 @@ export default {
     },
     onClickCheckbox: function (todo) {
       this.$store.dispatch(UPDATE_TODO, todo);
+    },
+    deleteTodo: function (todoId){
+      this.$store.dispatch(DELETE_TODO, todoId);
     }
   }
 };

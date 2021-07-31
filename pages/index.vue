@@ -1,9 +1,20 @@
 <template>
-  <ToDo />
+  <div class="content">
+    <Habit />
+    <Daily />
+    <ToDo />
+  </div>
 </template>
   
-<script lang="ts">
-import Vue from 'vue'
 
-export default Vue.extend({})
+<style lang="scss">
+.content {
+  @apply flex;
+}
+</style>
+
+<script lang="ts">
+import Vue from "vue";
+
+export default Vue.extend({});
 </script>
