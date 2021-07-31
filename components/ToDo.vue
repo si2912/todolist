@@ -80,8 +80,8 @@ export default {
       get() {
         return this.$store.getters.todos;
       },
-      set() {
-        this.$store.dispatch(UPDATE_TODO, this.todos);
+      set(todos) {
+        this.$store.dispatch(UPDATE_TODO, todos);
       }
     }
   },
