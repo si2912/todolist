@@ -3,7 +3,7 @@
     <div class="todo__input">
       <input placeholder="Add a To Do" @keyup.enter="addNewToDo" v-model="newTodo"/>
     </div>
-    <draggable :list="todos" @start="dragging = true" @end="dragging = false" class="todo__items">
+    <draggable v-model="todos" @start="dragging = true" @end="dragging = false" class="todo__items">
       <div class="todo__items__item" v-for="todo in todos" :key="todo.id">
         <div class="todo__items__item__checkbox">
           <input type="checkbox" :checked="todo.isCompleted"
@@ -76,8 +76,13 @@ export default {
     };
   },
   computed: {
-    todos() {
-      return this.$store.getters.todos;
+    todos: {
+      get() {
+        return this.$store.getters.todos;
+      },
+      set() {
+        this.$store.dispatch(UPDATE_TODO, this.todos);
+      }
     }
   },
   methods: {

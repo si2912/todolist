@@ -1,5 +1,6 @@
 export const ADD_NEW_TODO = 'addNewTodo';
 export const UPDATE_TODO = 'updateTodo';
+export const CHANGE_TODO_ORDER = 'changeTodoOrder';
 
 const state = () => ({
   todos: [],
@@ -17,6 +18,9 @@ const mutations = {
   [`${UPDATE_TODO}`](state: any, todo: any) {
     let _todo = state.todos.find((x: any) => x.id === todo.id);
     _todo = { ...todo };
+  },
+  [`${CHANGE_TODO_ORDER}`](state: any, todos: any) {
+    state.todos = [ ...todos ];
   }
 };
 
@@ -26,6 +30,9 @@ const actions = {
   },
   [`${UPDATE_TODO}`]({ commit }: any, payload: any) {
     commit(UPDATE_TODO, payload);
+  },
+  [`${CHANGE_TODO_ORDER}`]({ commit }: any, payload: any) {
+    commit(CHANGE_TODO_ORDER, payload);
   }
 };
 
